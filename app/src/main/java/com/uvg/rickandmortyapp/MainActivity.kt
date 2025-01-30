@@ -11,6 +11,7 @@ import com.uvg.rickandmortyapp.ui.*
 import com.uvg.rickandmortyapp.viewmodel.CharacterViewModel
 import com.uvg.rickandmortyapp.viewmodel.EpisodeViewModel
 import com.uvg.rickandmortyapp.ui.theme.RickAndMortyAPPTheme
+import com.uvg.rickandmortyapp.viewmodel.LocationViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,18 +21,19 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val characterViewModel: CharacterViewModel = viewModel()
                 val episodeViewModel: EpisodeViewModel = viewModel()
-                AppNavigation(navController, characterViewModel, episodeViewModel)
+                val locationViewModel: LocationViewModel = viewModel()
+                AppNavigation(navController, characterViewModel, episodeViewModel, locationViewModel)
             }
         }
     }
 }
 
 @Composable
-fun AppNavigation(navController: NavHostController, characterViewModel: CharacterViewModel, episodeViewModel: EpisodeViewModel) {
+fun AppNavigation(navController: NavHostController, characterViewModel: CharacterViewModel, episodeViewModel: EpisodeViewModel, locationViewModel: LocationViewModel) {
     NavHost(navController = navController, startDestination = "dashboard") {
         composable("dashboard") { DashboardScreen(navController) }
         composable("characters") { CharacterListScreen(characterViewModel) }
-        composable("locations") { LocationScreen() }
+        composable("locations") { LocationScreen(locationViewModel) }
         composable("episodes") { EpisodeScreen(episodeViewModel) }
     }
 }
