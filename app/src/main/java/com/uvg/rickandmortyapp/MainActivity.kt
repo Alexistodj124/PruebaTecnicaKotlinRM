@@ -9,7 +9,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.uvg.rickandmortyapp.ui.*
 import com.uvg.rickandmortyapp.ui.theme.RickAndMortyAPPTheme
 import com.uvg.rickandmortyapp.viewmodel.*
@@ -45,7 +47,15 @@ fun AppNavigation(
     NavHost(navController = navController, startDestination = "dashboard") {
         composable("dashboard") { DashboardScreen(navController, themeViewModel) }
         composable("characters") { CharacterListScreen(characterViewModel) }
-        composable("locations") { LocationScreen(locationViewModel) }
+        composable("locations") { LocationScreen(navController, locationViewModel) }
         composable("episodes") { EpisodeScreen(episodeViewModel) }
+
+        composable(
+            "locationCharacters/{residentIds}",
+            arguments = listOf(navArgument("residentIds") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val residentIds = backStackEntry.arguments?.getString("residentIds")?.split(",") ?: emptyList()
+            CharacterListByLocationScreen(residentIds, characterViewModel)
+        }
     }
 }

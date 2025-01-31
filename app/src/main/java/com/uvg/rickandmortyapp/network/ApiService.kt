@@ -6,6 +6,7 @@ import com.uvg.rickandmortyapp.model.Location
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -15,6 +16,8 @@ interface ApiService {
     suspend fun getEpisodes(@Query("page") page: Int = 1): EpisodeResponse
     @GET("location")
     suspend fun getLocations(@Query("page") page: Int = 1): LocationResponse
+    @GET("character/{ids}")
+    suspend fun getCharactersByIds(@Path("ids") ids: String): List<Character>
 }
 
 data class CharacterResponse(val results: List<Character>)
