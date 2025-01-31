@@ -26,4 +26,6 @@ class LocationViewModel : ViewModel() {
             }
         }
     }
+
 }
+
