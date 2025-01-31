@@ -18,7 +18,7 @@ fun CharacterListScreen(viewModel: CharacterViewModel) {
     val characters by viewModel.characters.collectAsState()
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Rick and Morty Blog") }) }
+        topBar = { TopAppBar(title = { Text("Characters") }) }
     ) { paddingValues ->
         LazyColumn(modifier = Modifier.padding(paddingValues)) {
             items(characters) { character ->

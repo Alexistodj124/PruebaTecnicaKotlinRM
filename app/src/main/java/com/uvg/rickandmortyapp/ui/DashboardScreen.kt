@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.uvg.rickandmortyapp.viewmodel.ThemeViewModel
 
@@ -24,26 +25,62 @@ fun DashboardScreen(navController: NavController, themeViewModel: ThemeViewModel
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = { navController.navigate("characters") }) {
-                Text("Characters")
+            // Sección de botones divididos en 3 partes iguales
+            Box(
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                DashboardButton(text = "Characters") { navController.navigate("characters") }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = { navController.navigate("locations") }) {
-                Text("Locations")
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = { navController.navigate("episodes") }) {
-                Text("Episodes")
-            }
-            Spacer(modifier = Modifier.height(16.dp))
 
-            // Dark/Light Mode Toggle Button
-            Button(onClick = { themeViewModel.toggleTheme() }) {
-                Text(if (isDarkTheme) "Switch to Light Mode" else "Switch to Dark Mode")
+            Box(
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                DashboardButton(text = "Locations") { navController.navigate("locations") }
+            }
+
+            Box(
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                DashboardButton(text = "Episodes") { navController.navigate("episodes") }
+            }
+
+            // Botón de Dark Mode siempre hasta abajo
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = { themeViewModel.toggleTheme() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = if (isDarkTheme) "Switch to Light Mode" else "Switch to Dark Mode",
+                    fontSize = 16.sp
+                )
             }
         }
+    }
+}
+
+@Composable
+fun DashboardButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth(0.8f)
+            .height(80.dp),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Text(text, fontSize =25.sp)
     }
 }
