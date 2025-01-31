@@ -16,14 +16,23 @@ class CharacterViewModel : ViewModel() {
     val characters: StateFlow<List<Character>> = _characters
 
     init {
-        fetchCharacters()
+        fetchAllCharacters()
     }
 
-    private fun fetchCharacters() {
+    private fun fetchAllCharacters() {
         viewModelScope.launch {
+            val allCharacters = mutableListOf<Character>()
+            var page = 1
+
             try {
-                val response = RetrofitInstance.api.getCharacters()
-                _characters.value = response.results
+                while (true) {
+                    val response = RetrofitInstance.api.getCharacters(page)
+                    allCharacters.addAll(response.results)
+
+                    if (response.info.next == null) break // No hay más páginas
+                    page++
+                }
+                _characters.value = allCharacters
             } catch (e: Exception) {
                 e.printStackTrace()
             }

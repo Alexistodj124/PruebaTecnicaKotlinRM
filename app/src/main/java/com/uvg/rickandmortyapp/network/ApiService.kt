@@ -20,7 +20,18 @@ interface ApiService {
     suspend fun getCharactersByIds(@Path("ids") ids: String): List<Character>
 }
 
-data class CharacterResponse(val results: List<Character>)
+data class CharacterResponse(
+    val info: PageInfo,
+    val results: List<Character>
+)
+
+data class PageInfo(
+    val count: Int,
+    val pages: Int,
+    val next: String?,
+    val prev: String?
+)
+
 data class EpisodeResponse(val results: List<Episode>)
 data class LocationResponse(val results: List<Location>)
 
