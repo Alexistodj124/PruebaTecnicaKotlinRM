@@ -15,6 +15,9 @@ class CharacterViewModel : ViewModel() {
     private val _characters = MutableStateFlow<List<Character>>(emptyList())
     val characters: StateFlow<List<Character>> = _characters
 
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     init {
         fetchAllCharacters()
     }
@@ -35,6 +38,8 @@ class CharacterViewModel : ViewModel() {
                 _characters.value = allCharacters
             } catch (e: Exception) {
                 e.printStackTrace()
+            } finally {
+                _isLoading.value = false // 🔹 Oculta el loading cuando termina la carga
             }
         }
     }
